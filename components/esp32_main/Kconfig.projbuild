@@ -1,0 +1,194 @@
+menu "SiX IoT SDK Configuration"
+
+    choice SDK_PROV_MODE
+        prompt "Provision Mode"
+        default ESP32_NETWORK_PROV_MANAGER
+        help
+            Choose the provision mode for the device
+
+        config ESP32_NETWORK_PROV_MANAGER
+            bool "ESP32_NETWORK_PROV_MANAGER"
+            help
+                This option is to configure the device using the networking provision manager component
+            
+        # config ESP32_PROV_BLUFI
+        #     bool "ESP32_PROV_BLUFI"
+        #     help
+        #         This option is to configure the device to use blufi 
+        #         to provision
+
+        # config ESP32_PROV_SOFTAP
+        #     bool "ESP32_PROV_SOFTAP"
+        #     help
+        #         This option is to configure the device to use softap 
+        #         to provision
+   	endchoice
+
+    # config SDK_DEVICE_GUID
+    #     string "Device GUID for the device"
+    #     default "0dc0c454-e4e1-4e3d-b2e6-6f57cbb85dbe"
+    #     help
+    #         This is the config for the GUID of the 
+    #         device.
+            
+    config SDK_TOKEN_ENDPOINT
+        string "Token endpoint for the device to exchange the ID/access token"
+        default "https://iam.shuhenglianchang.com/oauth2/token"
+        help
+            This is the token endpoint for the device to exchange the device private key
+            with the ID/access token.
+	
+    config SDK_MQTT_ENDPOINT
+        string "MQTT broker endpoint for the device to connect to"
+        #wss://a2o5o645mb29bc-ats.iot.ap-southeast-1.amazonaws.com/mqtt
+        default "wss://shuhenglianchang.com:30084/mqtt"
+        help
+            This is the MQTT broker endpoint for the device to connect to 
+            and subscribe/publish topices.
+    
+    config AWS_IOT_USERNAME_WITH_AUTHORIZER
+        string "The username which has authorizer and token key to connect to AWS IoT with custom authorizer"
+        default "username?x-amz-customauthorizer-name=six-iot-authorizer&token=%s"
+        depends on AWS_MQTT_BROKER
+        help 
+            The username which has authorizer and token key to connect to AWS IoT with custom authorizer,
+            you can use your own authorizer name and token key name
+
+    config SDK_SNTP_URL
+        string "SNTP endpoint"
+        # default "cn.pool.ntp.org"
+        default "ntp.aliyun.com"
+        help 
+            This is the SNTP endpoint
+            
+	# config SDK_PRODUCT_ID
+    #     string "Product ID to which the device belong"
+    #     default "655dcb820b3ad61dc370f697"
+    #     help
+    #         This is the product ID that the device belong to, need to first create the product
+    #         item for this device.
+    
+    config SDK_MQTT_CONN_KEEPALIVE
+        int "MQTT connection keepalive time period"
+        default 30
+        help 
+            This is used to set the mqtt session keepalive time period
+            
+	config SDK_BIND_DEVICE_ENDPOINT
+        string "Endpoint that bind the device to specific principal e.g. user"
+        default "https://mgt.iot.shuhenglianchang.com/iot/product/%s/device/binding"
+        help
+            This is the device binding endpoint used by the device to bind itself with
+            the specific principal.
+    
+    config SDK_LOG_ENDPOINT
+        string "Endpoint that device use to upload the log"
+        default "https://int.iot.shuhenglianchang.com/iot/log/product/%s"
+        help
+            This is the log uploading endpoint used by the device to upload the log to.
+            
+    
+    menuconfig SDK_ENABLE_CA
+        bool "Enable CA for secure connection"
+        default y
+        help
+            Choose which CA certificates to enable
+        if SDK_ENABLE_CA
+            config DEFAULT_ROOT_CA
+                bool "Default CA(for SiX server)"
+                default y
+                help
+                    Enable SiX server CA certificate
+
+            config AWS_ROOT_CA
+                bool "AWS Root CA"  
+                help
+                    Enable AWS server CA certificate
+        endif
+
+    choice SDK_MQTT_BROKER
+        prompt "SDK MQTT Broker option"
+        default DEFAULT_MQTT_BROKER
+        help
+            Choose the MQTT Broker to connect
+
+        config DEFAULT_MQTT_BROKER
+            bool "DEFAULT_MQTT_BROKER"
+            help
+                This option is to configure the device to connect to SiX server
+
+        config AWS_MQTT_BROKER
+            bool "AWS_MQTT_BROKER"
+            help
+                This option is to configure the device to connect to AWS server
+   	endchoice
+
+    choice SDK_TOKEN_REQ_CA
+        prompt "Token request CA"
+        default SDK_TOKEN_REQ_DEFAULT_CA
+        help
+            Choose the CA for the token request
+
+        config SDK_TOKEN_REQ_DEFAULT_CA
+            bool "SDK_TOKEN_REQ_DEFAULT_CA"
+            help
+                This option is to configure the device to connect to SiX server
+
+        config SDK_TOKEN_REQ_AWS_CA
+            bool "SDK_TOKEN_REQ_AWS_CA"
+            help
+                This option is to configure the device to connect to AWS server
+   	endchoice
+
+    choice SDK_BIND_DEVICE_REQ_CA
+        prompt "Bind device request CA"
+        default SDK_BIND_DEVICE_REQ_DEFAULT_CA
+        help
+            Choose the CA for the bind device request
+
+        config SDK_BIND_DEVICE_REQ_DEFAULT_CA
+            bool "SDK_BIND_DEVICE_REQ_DEFAULT_CA"
+            help
+                This option is to configure the device to connect to SiX server
+
+        config SDK_BIND_DEVICE_REQ_AWS_CA
+            bool "SDK_BIND_DEVICE_REQ_AWS_CA"
+            help
+                This option is to configure the device to connect to AWS server
+   	endchoice
+
+    choice SDK_LOG_REQ_CA
+        prompt "Log request CA"
+        default SDK_LOG_REQ_DEFAULT_CA
+        help
+            Choose the CA for the log upload request
+
+        config SDK_LOG_REQ_DEFAULT_CA
+            bool "SDK_LOG_REQ_DEFAULT_CA"
+            help
+                This option is to configure the device to connect to SiX server
+
+        config SDK_LOG_REQ_AWS_CA
+            bool "SDK_LOG_REQ_AWS_CA"
+            help
+                This option is to configure the device to connect to AWS server
+   	endchoice
+
+    choice SDK_OTA_REQ_CA
+        prompt "CA for the OTA server hosting the upgraded binary"
+        default SDK_OTA_REQ_DEFAULT_CA
+        help
+            Choose the OTA endpoint CA
+
+        config SDK_OTA_REQ_DEFAULT_CA
+            bool "SDK_OTA_REQ_DEFAULT_CA"
+            help
+                This option is to use the same CA with IAM server
+
+        config SDK_OTA_REQ_AWS_CA
+            bool "SDK_OTA_REQ_AWS_CA"
+            help
+                This option is to use the CA from AWS Cloud
+   	endchoice
+            
+endmenu

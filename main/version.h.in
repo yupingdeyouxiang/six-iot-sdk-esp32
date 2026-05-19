@@ -1,0 +1,7 @@
+// version.h.in - Template for version information
+#pragma once
+
+#define PROJECT_NAME      "@PROJECT_NAME@"
+#define PROJECT_VERSION   "@PROJECT_VER@"
+#define VERSION_FULL      "@PROJECT_VER_FULL@"
+#define BUILD_TIMESTAMP   "@BUILD_TIMESTAMP@"

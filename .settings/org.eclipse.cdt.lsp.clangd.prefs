@@ -1,0 +1,8 @@
+additional_options=--compile-commands-dir\=D\:\\workspace\\six-iot\\six-iot-sdk\\esp32\\six-iot-sdk\\build
+background_index=true
+clangd_path=clangd
+completion_style=detailed
+eclipse.preferences.version=1
+pretty_print=true
+query_driver=D\:\\Espressif\\tools\\xtensa-esp-elf\\esp-13.2.0_20240530\\xtensa-esp-elf\\bin\\xtensa-esp32-elf-gcc.exe
+use_tidy=true

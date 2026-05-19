@@ -1,0 +1,4 @@
+key,type,encoding,value
+creds,namespace,,
+device_key,file,string,./device_certs/default/device_key.pem
+network_prov,file,string,./device_certs/default/device_network_prov.json

@@ -1,0 +1,9 @@
+menu "SiX IoT IF Configuration"
+   	
+   	config TRACE_MAIN_TASK_STACK
+  		bool "Trace main task stack"
+  		default false
+   		help
+    		This config is used to trace the main task stack
+            
+endmenu
